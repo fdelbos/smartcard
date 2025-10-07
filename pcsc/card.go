@@ -10,6 +10,7 @@ import (
 
 	"github.com/dumacp/smartcard"
 	"github.com/ebfe/scard"
+	"github.com/rs/zerolog/log"
 )
 
 // Card Interface
@@ -137,6 +138,9 @@ func (c *Scard) Apdu(apdu []byte) ([]byte, error) {
 			}
 			return
 		}
+
+		log.Debug().Hex("send", apdu).Hex("recv", resp).Msg("transmit")
+
 		// ch <- resp
 		select {
 		case ch <- resp:
